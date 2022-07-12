@@ -18,14 +18,12 @@ const service = axios.create({
 
 // 请求拦截
 service.interceptors.request.use((req) => {
-  // debugger;
   const headers = req.headers;
-  const { token } = storage.getItem("userInfo");
+  const userInfo = storage.getItem("userInfo");
+  const token = userInfo ? userInfo.token : null;
   // 登录不需要tonken
-  if (req.url === "/users/login" && !token) {
-    console.log(req.url);
-    return req;
-  } else if (!headers.Authorization) headers.Authorization = "Bearer " + token;
+  if (req.url === "/users/login") return req;
+  if (!headers.Authorization) headers.Authorization = "Bearer " + token;
   return req;
 });
 
@@ -68,6 +66,7 @@ function request(options) {
   return service(options);
 }
 
+// 为Request追加静态方法
 ["get", "post", "put", "delete", "patch"].forEach((item) => {
   request[item] = (url, data, options) => {
     return request({
