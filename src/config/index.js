@@ -4,8 +4,8 @@
  * Date：202107192106
  */
 
-const env =
-  import.meta.env.MODE || "prod";
+const env = import.meta.env.MODE || "prod";
+
 const EnvConfig = {
   dev: {
     baseApi: "/api",
@@ -26,3 +26,5 @@ export default {
   namespace: "koa-manger",
   ...EnvConfig[env],
 };
+
+console.log(`当前环境：${env}`,import.meta.env);

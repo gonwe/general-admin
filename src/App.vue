@@ -5,7 +5,7 @@
 <script>
 export default {
   name: "app",
-  mounted() {},
+  mounted() { },
 };
 </script>
 <style lang='scss'>

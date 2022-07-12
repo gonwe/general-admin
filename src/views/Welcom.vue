@@ -1,5 +1,5 @@
 <template>
-  <h1>欢迎页 {{msg}}</h1>
+  <h1>欢迎页 {{ msg }}</h1>
   <el-button @click="goLogin">去登录</el-button>
 </template>
 

@@ -22,7 +22,8 @@ service.interceptors.request.use((req) => {
   const headers = req.headers;
   const { token } = storage.getItem("userInfo");
   // 登录不需要tonken
-  if (req.url === "/users/login") {
+  if (req.url === "/users/login" && !token) {
+    console.log(req.url);
     return req;
   } else if (!headers.Authorization) headers.Authorization = "Bearer " + token;
   return req;
@@ -49,6 +50,7 @@ service.interceptors.response.use((res) => {
  * @param {*} options 请求配置
  */
 function request(options) {
+
   options.method = options.method || "get";
   if (options.method.toLowerCase() === "get") {
     options.params = options.data;
