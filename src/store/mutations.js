@@ -1,5 +1,5 @@
 /**
- * Mutations 义务层数据提交
+ * Mutations 业务层数据提交
  */
 
 import storage from "../utils/storage";

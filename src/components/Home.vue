@@ -2,10 +2,10 @@
   <div class="basic-layout">
     <div class="nav-side">
       <!-- 系统LOGO -->
-      <!-- <div class="logo">
-        <img src="./../assets/logo.png" />
-        <span>Manager</span>
-      </div> -->
+      <div class="logo">
+        <img src="./../assets/logo.png" width="100" />
+        <span>OA管理系统</span>
+      </div>
       <!-- 导航菜单 -->
       <el-menu :default-active="activeMenu" background-color="#001529" text-color="#fff" router :collapse="isCollapse"
         class="nav-menu">
@@ -35,7 +35,7 @@
 
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item command="email">邮箱：{{ userInfo?.userEmailz }}</el-dropdown-item>
+                <el-dropdown-item command="email">邮箱：{{ userInfo?.userEmail }}</el-dropdown-item>
                 <el-dropdown-item command="logout">退出</el-dropdown-item>
               </el-dropdown-menu>
             </template>
@@ -58,7 +58,6 @@ export default {
   data() {
     return {
       isCollapse: false,
-
       noticeCount: 0,
       userMenu: [],
       activeMenu: location.hash.slice(1),
@@ -98,6 +97,14 @@ export default {
         console.log(error);
       }
     },
+
+    //退出登录
+    logout(key) {
+      if (key === 'email') return;
+      this.$store.commit("saveUserInfo", "");
+      this.userInfo = null
+      this.$router.push("/login");
+    },
   },
 };
 </script>
@@ -123,7 +130,7 @@ export default {
       height: 50px;
 
       img {
-        margin: 0 16px;
+        margin: 0 8px;
         width: 32px;
         height: 32px;
       }
