@@ -1,10 +1,10 @@
 <template>
   <div class="basic-layout">
-    <div class="nav-side">
+    <div :class="['nav-side', isCollapse ? 'fold' : 'unfold']">
       <!-- 系统LOGO -->
       <div class="logo">
         <img src="./../assets/logo.png" width="100" />
-        <span>OA管理系统</span>
+        <span v-if="!isCollapse">OA管理系统</span>
       </div>
       <!-- 导航菜单 -->
       <el-menu :default-active="activeMenu" background-color="#001529" text-color="#fff" router :collapse="isCollapse"
@@ -13,11 +13,11 @@
         <TreeMenu :userMenu="userMenu" />
       </el-menu>
     </div>
-    <div class="content-right">
+    <div :class="['content-right', isCollapse ? 'fold' : 'unfold']">
       <div class="nav-top">
         <div class="nav-left">
           <div class="menu-fold">
-            <i class="el-icon-s-fold"></i>
+            <i class="el-icon-s-fold" @click="menuFold"></i>
           </div>
           <div class="bread">
             <BreadCrumb />
@@ -89,6 +89,7 @@ export default {
         console.log(error);
       }
     },
+
     async getMenuList() {
       try {
         const list = await this.$api.getMenuList();
@@ -96,6 +97,10 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+
+    menuFold() {
+      this.isCollapse = !this.isCollapse;
     },
 
     //退出登录
