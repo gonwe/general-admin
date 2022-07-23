@@ -4,12 +4,11 @@ import request from "../utils/request";
 
 export default {
   login(params) {
-    console.log(params);
     return request({
       url: "/users/login",
       data: params,
       method: "post",
-      mock: true,
+      mock: false,
     });
   },
 
@@ -22,17 +21,16 @@ export default {
     });
   },
 
-  getMenuList() {
+  getMenuList(params) {
     return request({
       url: "/menu/list",
       method: "get",
-      data: {},
-      mock: true,
+      data: params,
+      mock: false,
     });
   },
 
   getUserList(params) {
-    console.log(params);
     return request({
       url: "/users/list",
       method: "get",
@@ -40,8 +38,8 @@ export default {
       // mock: false,
     });
   },
+
   userDel(params) {
-    console.log(params);
     return request({
       url: "/users/delete",
       method: "post",
@@ -50,7 +48,6 @@ export default {
     });
   },
   getDeptList(params) {
-    console.log(params);
     return request({
       url: "/dept/list",
       method: "get",
@@ -58,8 +55,8 @@ export default {
       mock: true,
     });
   },
-  getRoleList(params) {
-    console.log(params);
+
+  getAllRoleList(params) {
     return request({
       url: "/roles/alllist",
       method: "get",
@@ -67,8 +64,18 @@ export default {
       mock: true,
     });
   },
+
+  getRoleList(params) {
+    return request({
+      url: "/roles/list",
+      method: "get",
+      data: params,
+      mock: true,
+    });
+  },
+
+
   userSumbit(params) {
-    console.log(params);
     return request({
       url: "/users/operate",
       method: "post",
@@ -76,13 +83,32 @@ export default {
       // mock: true,
     });
   },
+
   menuSumbit(params) {
-    console.log(params);
     return request({
       url: "/menu/operate",
       method: "post",
       data: params,
-      mock: true,
+      mock: false,
     });
   },
+
+  roleSumbit(params) {
+    return request({
+      url: "/role/operate",
+      method: "post",
+      data: params,
+      mock: false,
+    });
+  },
+
+  roleUpdatePermission(params) {
+    return request({
+      url: "/roles/update/permission",
+      method: "post",
+      data: params,
+      mock: false,
+    });
+  },
+
 };

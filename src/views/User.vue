@@ -241,7 +241,7 @@ export default {
       // console.log(ctx);
       getUserList();
       getDeptList();
-      getRoleList();
+      getAllRoleList();
     });
     // 获取用户列表
     const getUserList = async () => {
@@ -314,8 +314,8 @@ export default {
       deptList.value = list;
     };
     // 获取权限列表
-    const getRoleList = async () => {
-      const list = await that.$api.getRoleList();
+    const getAllRoleList = async () => {
+      const list = await that.$api.getAllRoleList();
       rolesList.value = list;
     };
     // 关闭弹窗
@@ -370,7 +370,7 @@ export default {
       handlePathDel,
       addUserModel,
       getDeptList,
-      getRoleList,
+      getAllRoleList,
       handleClose,
       handleSumbit,
       handleEdit,
