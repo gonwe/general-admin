@@ -32,12 +32,21 @@
           <template #default="scope">
             <el-button type="primary" @click="handleAdd(2, scope.row)">新增</el-button>
             <el-button @click="handleEdit(scope.row)" type="primary" size="mini">编辑</el-button>
-            <el-button type="danger" size="mini" @click="handleDel(scope.row._id)">删除</el-button>
+
+            <el-popconfirm confirm-button-text="确认" cancel-button-text="取消" icon-color="#626AEF" title="确认要删除吗?"
+              @confirm="handleDel(scope.row._id)">
+              <template #reference>
+                <el-button type="danger" size="mini">删除</el-button>
+              </template>
+            </el-popconfirm>
+
+
+
           </template>
         </el-table-column>
       </el-table>
 
-      <el-dialog :title="action == 'create'?'新增菜单':'编辑菜单'" v-model="menuModel">
+      <el-dialog :title="action == 'create' ? '新增菜单' : '编辑菜单'" v-model="menuModel">
         <el-form :model="addmenuForm" ref="menuFormAdd" :rules="rules">
           <el-form-item label="父级菜单" :label-width="110" prop="parentId">
             <el-cascader placeholder="请选择" :options="menuList" v-model="addmenuForm.parentId"
@@ -49,7 +58,7 @@
             <el-radio v-model="addmenuForm.menuType" :label="1">菜单</el-radio>
             <el-radio v-model="addmenuForm.menuType" :label="2">按钮</el-radio>
           </el-form-item>
-          <el-form-item label="菜单名称" :label-width="110" prop="menuName">
+          <el-form-item :label="addmenuForm.menuType === 1 ? '菜单名称' : '按钮名称'" :label-width="110" prop="menuName">
             <el-input v-model="addmenuForm.menuName" placeholder="请输入"></el-input>
           </el-form-item>
 

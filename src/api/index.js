@@ -61,7 +61,7 @@ export default {
       url: "/roles/alllist",
       method: "get",
       data: params,
-      mock: true,
+      // mock: true,
     });
   },
 
@@ -70,7 +70,7 @@ export default {
       url: "/roles/list",
       method: "get",
       data: params,
-      mock: true,
+      // mock: true,
     });
   },
 
@@ -95,7 +95,7 @@ export default {
 
   roleSumbit(params) {
     return request({
-      url: "/role/operate",
+      url: "/roles/operate",
       method: "post",
       data: params,
       mock: false,
