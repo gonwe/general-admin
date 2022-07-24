@@ -39,6 +39,15 @@ export default {
     });
   },
 
+  getAllUserList() {
+    return request({
+      url: "/users/all/list",
+      method: "get",
+      data: {},
+      // mock: false,
+    });
+  },
+
   userDel(params) {
     return request({
       url: "/users/delete",
@@ -47,14 +56,16 @@ export default {
       // mock: true,
     });
   },
+
   getDeptList(params) {
     return request({
       url: "/dept/list",
       method: "get",
       data: params,
-      mock: true,
+      // mock: true,
     });
   },
+
 
   getAllRoleList(params) {
     return request({
@@ -105,6 +116,16 @@ export default {
   roleUpdatePermission(params) {
     return request({
       url: "/roles/update/permission",
+      method: "post",
+      data: params,
+      mock: false,
+    });
+  },
+
+
+  deptSumbit(params) {
+    return request({
+      url: "/dept/operate",
       method: "post",
       data: params,
       mock: false,
