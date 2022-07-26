@@ -9,6 +9,20 @@ import request from "./utils/request";
 import storage from "./utils/storage";
 
 const app = createApp(App);
+
+app.directive("has", (el, binding) => {
+    const value = binding.value;
+    const actionList = storage.getItem("actionList");
+    const hasPermission = actionList.includes(value);
+    if (!hasPermission) {
+        // 转为宏任务
+        setTimeout(() => {
+            el.style.display = "none";
+            el.parentNode?.removeChild(el);
+        });
+    }
+})
+
 console.log(storage.getItem("userInfo"));
 app.config.globalProperties.$request = request; //全局属性挂载request
 app.config.globalProperties.$storage = storage; //全局属性挂载storage

@@ -26,65 +26,42 @@
     </div>
     <div class="base-table">
       <div class="action">
-        <el-button type="primary" @click="addUserModel">新增</el-button>
-        <el-button type="danger" @click="handlePathDel">批量删除</el-button>
+        <el-button type="primary" @click="addUserModel" v-has:permission="'user-create'">新增</el-button>
+        <el-button type="danger" @click="handlePathDel" v-has:permission="'user-delete'">批量删除</el-button>
       </div>
       <el-table :data="userList" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" />
-        <el-table-column
-          v-for="item of columns"
-          :key="item.prop"
-          :prop="item.prop"
-          :label="item.label"
-          :width="item.width"
-          :formatter="item.formatter"
-        >
+        <el-table-column v-for="item of columns" :key="item.prop" :prop="item.prop" :label="item.label"
+          :width="item.width" :formatter="item.formatter">
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="150">
           <template #default="scope">
-            <el-button @click="handleEdit(scope.row)" type="primary" size="mini"
-              >编辑</el-button
-            >
-            <el-button type="danger" size="mini" @click="handleDel(scope.row)"
-              >删除</el-button
-            >
+            <el-button @click="handleEdit(scope.row)" type="primary" size="mini" v-has:permission="'user-create'">编辑
+            </el-button>
+
+            <el-button type="danger" size="mini" @click="handleDel(scope.row)" v-has:permission="'user-delete'">删除
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
       <div class="pagination">
-        <el-pagination
-          background
-          layout="prev, pager, next"
-          @current-change="handleCurrentChange"
-          :currentPage="pager.pageNum"
-          :total="pager.total"
-        >
+        <el-pagination background layout="prev, pager, next" @current-change="handleCurrentChange"
+          :currentPage="pager.pageNum" :total="pager.total">
         </el-pagination>
       </div>
 
       <el-dialog title="新增用户" v-model="userModel">
         <el-form :model="addUserForm" ref="userFormAdd" :rules="rules">
           <el-form-item label="用户名" :label-width="110" prop="userName">
-            <el-input
-              :disabled="action == 'edit'"
-              v-model="addUserForm.userName"
-              placeholder="请输入"
-            ></el-input>
+            <el-input :disabled="action == 'edit'" v-model="addUserForm.userName" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="邮箱" :label-width="110" prop="userEmail">
-            <el-input
-              v-model="addUserForm.userEmail"
-              placeholder="请输入"
-              :disabled="action == 'edit'"
-            >
-              <template #append>@gonwe.cn</template></el-input
-            >
+            <el-input v-model="addUserForm.userEmail" placeholder="请输入" :disabled="action == 'edit'">
+              <template #append>@gonwe.cn</template>
+            </el-input>
           </el-form-item>
           <el-form-item label="手机号" :label-width="110" prop="mobile">
-            <el-input
-              v-model="addUserForm.mobile"
-              placeholder="请输入"
-            ></el-input>
+            <el-input v-model="addUserForm.mobile" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="岗位" :label-width="110" prop="job">
             <el-input v-model="addUserForm.job" placeholder="请输入"></el-input>
@@ -97,30 +74,14 @@
             </el-select>
           </el-form-item>
           <el-form-item label="系统角色" :label-width="110" prop="roleList">
-            <el-select
-              v-model="addUserForm.roleList"
-              placeholder="请选择"
-              style="width: 100%"
-              multiple
-            >
-              <el-option
-                v-for="role in rolesList"
-                :key="role._id"
-                :label="role.roleName"
-                :value="role._id"
-              />
+            <el-select v-model="addUserForm.roleList" placeholder="请选择" style="width: 100%" multiple>
+              <el-option v-for="role in rolesList" :key="role._id" :label="role.roleName" :value="role._id" />
             </el-select>
           </el-form-item>
 
           <el-form-item label="部门" :label-width="110" prop="deptId">
-            <el-cascader
-              style="width: 100%"
-              placeholder="请选择"
-              :options="deptList"
-              v-model="addUserForm.deptId"
-              :props="{ checkStrictly: true, label: 'deptName', value: '_id' }"
-              clearable
-            ></el-cascader>
+            <el-cascader style="width: 100%" placeholder="请选择" :options="deptList" v-model="addUserForm.deptId"
+              :props="{ checkStrictly: true, label: 'deptName', value: '_id' }" clearable></el-cascader>
           </el-form-item>
         </el-form>
         <template #footer>
@@ -263,7 +224,7 @@ export default {
     // 重置用户搜索列表
     const handleReset = (formName) => {
       // console.log(ctx);
-      ctx.$refs[formName].resetFields();
+      ctx.$refs[formName]?.resetFields();
     };
     // 分页参数处理
     const handleCurrentChange = (curent) => {
@@ -349,6 +310,7 @@ export default {
         Object.assign(addUserForm, row);
       });
     };
+
     return {
       user,
       pager,

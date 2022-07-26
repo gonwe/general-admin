@@ -9,4 +9,21 @@ export default {
     state.userInfo = userInfo;
     storage.setItem("userInfo", userInfo);
   },
+  saveActionList(state, actionList) {
+    state.actionList = actionList;
+    storage.setItem("actionList", actionList);
+  },
+  saveMenuList(state, menuList) {
+    state.menuList = menuList;
+    storage.setItem("menuList", menuList);
+  },
+
+  logout(state) {
+    state.userInfo = {};
+    state.actionList = [];
+    state.menuList = [];
+    storage.clearItem("userInfo");
+    storage.clearItem("actionList");
+    storage.clearItem("menuList");
+  }
 };

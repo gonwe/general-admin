@@ -48,6 +48,15 @@ export default {
     });
   },
 
+  getPermissionList() {
+    return request({
+      url: "/users/getPermissions",
+      method: "get",
+      data: {},
+      // mock: false,
+    });
+  },
+
   userDel(params) {
     return request({
       url: "/users/delete",

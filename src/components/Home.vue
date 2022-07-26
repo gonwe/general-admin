@@ -27,7 +27,7 @@
           <el-badge class="notice" type="danger" :is-dot="noticeCount > 0 ? true : false">
             <i class="el-icon-bell"></i>
           </el-badge>
-          <el-dropdown>
+          <el-dropdown @command="logout">
             <span class="user-link">
               {{ userInfo?.userName }}
               <i class="el-icon--right"></i>
@@ -75,7 +75,7 @@ export default {
   },
   mounted() {
     this.getNoticesCount();
-    this.getMenuList();
+    this.getPermissionList();
   },
   methods: {
     async getNoticesCount() {
@@ -90,10 +90,12 @@ export default {
       }
     },
 
-    async getMenuList() {
+    async getPermissionList() {
       try {
-        const list = await this.$api.getMenuList();
-        this.userMenu = list;
+        const { menuList, actionList } = await this.$api.getPermissionList();
+        this.userMenu = menuList;
+        this.$store.commit("saveActionList", actionList);
+        this.$store.commit("saveMenuList", menuList);
       } catch (error) {
         console.log(error);
       }
@@ -105,8 +107,9 @@ export default {
 
     //退出登录
     logout(key) {
+      console.log(key);
       if (key === 'email') return;
-      this.$store.commit("saveUserInfo", "");
+      this.$store.commit("logout");
       this.userInfo = null
       this.$router.push("/login");
     },
