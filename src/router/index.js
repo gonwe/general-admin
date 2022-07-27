@@ -1,5 +1,13 @@
-import { createRouter, createWebHashHistory } from "vue-router";
 import Home from "@/components/Home.vue";
+import { createRouter, createWebHashHistory } from "vue-router";
+import storage from "../utils/storage";
+import utils from "../utils/utils";
+import api from "../api/index";
+import store from "../store";
+
+//Vite 支持使用特殊的 import.meta.glob 函数从文件系统导入多个模块
+const modules = import.meta.glob("../views/**.vue")
+
 const routes = [
   {
     name: "home",
@@ -19,36 +27,12 @@ const routes = [
         component: () => import("@/views/Welcom.vue"),
       },
       {
-        name: "user",
-        path: "/system/user",
+        name: "404",
+        path: "/404",
         meta: {
-          title: "用户管理",
+          title: "页面不存在",
         },
-        component: () => import("@/views/User.vue"),
-      },
-      {
-        name: "menu",
-        path: "/system/menu",
-        meta: {
-          title: "菜单管理",
-        },
-        component: () => import("@/views/Menu.vue"),
-      },
-      {
-        name: "role",
-        path: "/system/role",
-        meta: {
-          title: "角色管理",
-        },
-        component: () => import("@/views/Role.vue"),
-      },
-      {
-        name: "dept",
-        path: "/system/dept",
-        meta: {
-          title: "部门管理",
-        },
-        component: () => import("@/views/Dept.vue"),
+        component: () => import("@/views/404.vue"),
       },
     ],
   },
@@ -61,9 +45,47 @@ const routes = [
     component: () => import("@/views/Login.vue"),
   },
 ];
+
+
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
+});
+
+
+function checkPerimisson(path) {
+  const length = router.getRoutes().filter(router => router.path === path).length > 0
+  return length
+}
+
+
+async function loadAsyncRoutes() {
+  // 判断有没有token
+  const userInfo = storage.getItem("userInfo") || {}
+  if (userInfo.token) {
+    // 从后台获取权限菜单
+    const menuList = store.state.menuList;
+    // 生成路由需要的格式
+    const routers = utils.generateRoutes(menuList);
+    // 添加到路由表
+    routers.map(route => {
+      route.component = modules[`../views/${route.component}.vue`];
+      router.addRoute('home', route);
+    })
+  }
+}
+await loadAsyncRoutes()
+
+// 路由拦截
+router.beforeEach(async (to, from, next) => {
+  if (checkPerimisson(to.path)) {
+    console.log(to);
+    document.title = to.meta.title;
+    next();
+  } else {
+    next("/404");
+    document.title = "页面不存在";
+  }
 });
 
 export default router;

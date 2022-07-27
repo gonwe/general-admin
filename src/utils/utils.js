@@ -32,4 +32,32 @@ export default {
     }
     return fmt;
   },
+
+
+  generateRoutes(menuList) {
+    let routes = []
+    const deepList = (list) => {
+      console.log('list', list)
+      list.forEach(route => {
+        if (route.action) {
+          console.log('route', route.component)
+          routes.push({
+            path: route.path,
+            name: route.name,
+            meta: {
+              title: route.menuName,
+            },
+            component: route.component
+          },)
+        }
+
+        if (route.children && !route.action) {
+          deepList(route.children)
+        }
+      })
+    }
+
+    deepList(menuList)
+    return routes
+  }
 };
